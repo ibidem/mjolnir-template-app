@@ -19,7 +19,27 @@
 			 * create basic protocols for common access requirements.
 			 */
 
-			// empty
+			// +roles by convention are template roles, there should never be
+			// a user in the system which useses these roles directly
+
+			'+common' => array
+				(
+					Allow::relays
+						(
+							'home.public',
+							'login.public'
+						)
+						->unrestricted(),
+				),
+
+			'+member' => array
+				(
+					Allow::relays
+						(
+							'dashboard.public'
+						)
+						->unrestricted(),
+				),
 		),
 
 	'blacklist' => array # disallow! (no matter what)
