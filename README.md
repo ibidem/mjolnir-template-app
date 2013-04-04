@@ -6,7 +6,7 @@ This branch is a working demo application.
 
 You should use `mj/2.x/blank` as a startup structure; since it's easy to update.
 
-	git clone -b mj/2.x/blank git://github.com/srcspider/whitedragon.git YOURPROJECT
+	git clone -b mj/2.x/blank git://github.com/ibidem/mjolnir-template-app.git YOURPROJECT
 	cd YOURPROJECT/
 	git checkout -b master
 	git remote rename origin mjolnir
