@@ -12,3 +12,5 @@ You should use `mj/2.x/blank` as a startup structure; since it's easy to update.
 	git remote rename origin mjolnir
 	git remote add origin YOURREPO
 	git push origin master
+
+You can now do `git pull mjolnir mj/2.x/blank` at any time to get the latest template updates.
