@@ -1,22 +1,82 @@
 Changelog
 =========
 
-   solid = has complete tests and docs, is/was used in production and no 
-           changes or issues were required, reported or otherwise signaled on 
+With the exception of stable/solid versions a lot of versions is internal and
+may not have direct branch or tag.
+
+   solid = has complete tests and docs, is/was used in production and no
+           changes or issues were required, reported or otherwise signaled on
            it for several months
 
-  stable = has complete tests and docs
+  stable = has complete tests and potentially incomplete but usable docs
 
   liquid = incomplete tests and docs
 
 unstable = former stable/solid branch which has had bugs reported on it
 
-  future = changes planned but not yet implemented (ie. heads up!)
+  future = changes planned but not yet implemented (ie. heads up!) or
+           implemented in legacy (ie. if you don't have the legacy module
+           enabled, you are technically working with the future version today)
 
 future/3.x
 ----------
 
  - bower support removed; use of bower discouraged
+
+ - mjolnir\base\Controller removed
+
+ - mjolnir\foundation\Puppet::modelclass removed; nothing particularly wrong
+   with it, design consideration because Puppet is used and may be used with
+   various non-model related classes
+
+ - devlog task alias removed
+
+ - removed Schematic-based migration system
+
+liquid/2.5
+----------
+
+*core*
+
+  - as long as you have the profiling module loaded and logging -> devlogs
+    enabled in your configuration you can view the status of access checks with
+    the new command order log:access; this is useful when writing or
+    refactoring since almost everything goes though the access system and it
+    can be confusing if something failed because of a protocol or bad code
+    somewhere else
+
+  - order devlog is now order log:short, new --erase (-e) flag has been added;
+    short.log is no longer erased when using the command on its own
+
+  - deprecated console commands are now moved to a "legacy" category; allowing
+    scripts that might rely on them, such as crons, to continue to work as
+	expected
+
+  - the Layer interface now also uses the Meta interface by default
+
+  - task categories now must be mentioned in task-categories configuration to
+    be valid and are ordered based on a given priority in said configuration
+
+  - licenses task has been added
+
+  - Schematic-based migration system deprecated
+
+  - Paradox migration system introduced; should not be used in tandem with
+    schematic system
+
+  - base configuration now has a db:lock option; when active migration systems
+    will ignore data damaging operations (install-overs, resets, uninstalls,
+    etc). ON by default. Does not apply to deprecated Schematic system, for
+	legacy compatibility reasons.
+
+ - base configuration now controls which migration system is use though 
+   db:migrations; this is meant to prevent accidental use of the wrong 
+   migration system, potentially causing a full database wipe
+
+ - overlord script introduced; script is intended to provide access to tasks on
+   systems where ssh access is not available; script is located in www.overlord
+   draft and requires configuration in www.path/config.php before it will allow
+   access
 
 liquid/2.4
 ----------
@@ -30,6 +90,31 @@ liquid/2.4
    out redirects
 
  - bower support is now deprecated and scheduled for removal in 3.x
+
+ - convention: all default base classes are abstract classes with the Base
+   suffix; these are shorthands, they are convenient but using traits and
+   interfaces directly is recommended since it allows for trait method rewrite
+
+ - class \mjolnir\base\Controller deprecated (see convention above)
+
+ - better logging for Sphinx api calls
+
+ - script loader can be turned off
+
+ - Puppet::modelclass is now deprecated and part of legacy module
+
+ - Puppet iterface/trait now provides codename and codegroup which are at the
+   library level implemented as underscore version of the singular and plural
+   names, but obviously like other Puppet interface methods may/should be
+   customized to take advantage of class usage circumstances
+
+ - Validator has been moved to the mjolnir\base namespace
+
+ - added \mjolnir\base\Auditor which implements \mjolnir\types\Validator, unlike
+   \mjolnir\base\Validator, the Auditor class is designed to validate partial
+   data and also validate multiple field sets with the same object
+
+ - theme drivers now support some basic browser caching
 
 *bugs*
 
@@ -49,7 +134,7 @@ liquid/2.2
 
  - improved display of file permissions system
 
- - several new display helpers for permissions have been added to the 
+ - several new display helpers for permissions have been added to the
    `Filesystem` class
 
  - when `development` in `mjolnir/base` (ie. `www.path/config`) is set to true
@@ -61,12 +146,12 @@ liquid/2.2
 
  - `README.md` updated with basic information on new backend panels
 
- - `bin/vendor/install` now only installs core dependencies using 
-   `/composer.json` in addition the installation will run with `--prefer-dist`, 
+ - `bin/vendor/install` now only installs core dependencies using
+   `/composer.json` in addition the installation will run with `--prefer-dist`,
    which is more reliable
- 
- - `bin/vendor/development` now installs development dependencies 
-   using `/etc/composer.json`, unlike `bin/vendor/install` this script uses 
+
+ - `bin/vendor/development` now installs development dependencies
+   using `/etc/composer.json`, unlike `bin/vendor/install` this script uses
    `--prefer-source`
 
 *bugs*
@@ -89,15 +174,15 @@ liquid/2.1
    `available` state is still supported
 
  - status is now available in the application admin backend; the list should
-   be more user friendly and also guaranteed to reflect server status; 
-   whereas the command version (which is still available) is highly prone to 
+   be more user friendly and also guaranteed to reflect server status;
+   whereas the command version (which is still available) is highly prone to
    errors such as using different CLI configuration for a lot of tests
 
 *bugs*
 
  - images will now be re-orientated to guarantee compatibility with systems
-   that do not read exif data before processing (eg. thumbnail systems); the 
-   class `\mjolnir\base\Image` has been introduced for this purpose and may be 
+   that do not read exif data before processing (eg. thumbnail systems); the
+   class `\mjolnir\base\Image` has been introduced for this purpose and may be
    used outside of image uploads
 
  - fix'ed video rotation bug
@@ -154,7 +239,7 @@ liquid/2.0
 
 *template*
 
- - `changelog.md` is now included; changelog has been trimmed to `liquid/1.0` 
+ - `changelog.md` is now included; changelog has been trimmed to `liquid/1.0`
     and up
 
  - the main template has been reorganized slightly; `mjolnir.php` and
