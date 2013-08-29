@@ -27,7 +27,7 @@
 
 		# Optional Settings
 		# ---------------------------------------------------------------------
-	
+
 		// what database migration system do you want to use?
 		'db:migrations' => 'paradox',
 
@@ -54,6 +54,10 @@
 				// during development when the majority of errors are easily
 				// identified or for outputing debug information
 				'devlogs' => true,
+
+				// log queries in a consice one-line format; mjolnir/profile
+				// module is required
+				'short.sql.log' => true,
 
 				// you may ignore certain types of log errors if you already
 				// have an alternative system in place that catches them and
@@ -88,7 +92,16 @@
 				'passcode' => 'opensesame',
 			),
 
-		// web console access
+		// theme related settings
+		'theme' => array
+			(
+				// uses packages instead of raw files; packages need to be
+				// generated though theme:packager and are under
+				'packaged' => false,
+
+			),
+
+		// web console access; requires www.overlord to be included
 		'overlord' => array
 			(
 				// console is only accessible if maintenance is enabled
@@ -107,9 +120,9 @@
 		// as-is you may wish to adjust the following setting; leave as-is in
 		// every other scenario or undefined behaviour may happen
 		'error-reporting' => -1,
-	
+
 		// when locked, migration system will only allow safe operations such
-		// as installing/reseting as long it doesn't require overwrites, or
+		// as installing/reseting ONLY IF it doesn't require overwrites, or
 		// inspecting, upgrading, etc
 		'db:lock' => true,
 

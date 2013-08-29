@@ -33,10 +33,55 @@ future/3.x
 
  - removed Schematic-based migration system
 
+ - removed Layer_HTML legacy support for underscore version of keys and
+   headscript support
+
+liquid/2.6
+----------
+
+ *core*
+
+   - Layer_HTML will not prioritize channel settings over configuration
+     settings; all properties are now compatible with channel settings, the
+     channel version of the keys has the "html:" prefix unless it's a
+     common key—currently assuming no backwards compatibility issues exist due
+     to previous code requiring retrieval of "layer:html" which won't break
+     under the new system
+
+   - all underscore keys have been converted to dash keys (legacy module now
+	 will convert all underscores to dashes)
+
+   - Layer_HTML "headscript" is now "startup-script" (legacy module now merge
+     "headscript" into "startup-script," unique values only)
+
+   - Layer_HTML now accepts "js-loader-handler," will default to "yepnope" if
+     not specified
+
+   - The Pdx class now has a t($model, $temptable = null) method for dealing
+     with tables that have been permanently DROPed from a project.
+
 liquid/2.5
 ----------
 
 *core*
+
+  - theme:packager introduced; theme packager converts current compiled copy
+    into a package based on detectable version; .gitignore files are removed
+    when the compiled version is turned into a package; enable
+	theme -> packaging in mjolnir/base (ie. preferably www.config) to have the
+	system switch to using packages on a production server. Server compiling
+	is still ideal (especially in development), packages are an alternative
+	simplified method. Packaging is particularly useful when very complicated
+	compiling is required since it bypasses complicated the server setup at the
+	expense of source tree pollution.
+
+  - the constant APPVERSION and VERSION are now MJ_APP_VERSION to ensure
+    compatibility; library version remains unchanged due to these constants (a)
+    being partially an error when used, and (b) not used for anything critical
+	in the library--the constant EXT remain global
+
+  - log:cache, log:cache:get, log:queries are now available; appropriate
+    development settings and mjolnir/profile module required
 
   - as long as you have the profiling module loaded and logging -> devlogs
     enabled in your configuration you can view the status of access checks with
@@ -69,14 +114,21 @@ liquid/2.5
     etc). ON by default. Does not apply to deprecated Schematic system, for
 	legacy compatibility reasons.
 
- - base configuration now controls which migration system is use though 
-   db:migrations; this is meant to prevent accidental use of the wrong 
-   migration system, potentially causing a full database wipe
+  - base configuration now controls which migration system is use though
+    db:migrations; this is meant to prevent accidental use of the wrong
+    migration system, potentially causing a full database wipe
 
- - overlord script introduced; script is intended to provide access to tasks on
-   systems where ssh access is not available; script is located in www.overlord
-   draft and requires configuration in www.path/config.php before it will allow
-   access
+  - overlord script introduced; script is intended to provide access to tasks on
+    systems where ssh access is not available; script is located in www.overlord
+    draft and requires configuration in www.path/config.php before it will allow
+    access
+
+  - honeypot task now contains a prefix flag which allows you to generate based
+    on a partial namespace pattern
+
+*template*
+
+  - template theme has been tweaked slightly to account for new theme:packager
 
 liquid/2.4
 ----------
